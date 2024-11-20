@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Entity\CurrencySubscription" table="currency_subscription">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <sequence-generator sequence-name="currency_subscription_id_seq"/>
+        </id>
+        <indexes>
+            <index name="member_id_idx" columns="member_id"/>
+        </indexes>
+        <field name="member_id" type="uuid" nullable="false"/>
+        <field name="isActive" column="is_active" type="boolean">
+            <options>
+                <option name="default">true</option>
+                <option name="comment">Is subscription exist for member</option>
+            </options>
+        </field>
+        <field name="createdTime" type="datetime_immutable" column="created_time" nullable="true"/>
+        <field name="updatedTime" type="datetime_immutable" column="updated_time" nullable="true"/>
+        <one-to-one field="member" target-entity="App\Entity\Member" inversed-by="currencySubscription">
+            <join-column name="member_id" referenced-column-name="id" nullable="true"/>
+        </one-to-one>
+    </entity>
+</doctrine-mapping>

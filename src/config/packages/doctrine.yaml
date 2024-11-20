@@ -1,0 +1,63 @@
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                schema_filter: '~^(?!messenger_messages)~'
+                driver: 'pdo_pgsql'
+                server_version: '11.6'
+                default_table_options:
+                    charset: utf8
+                    collate: utf8_unicode_ci
+
+                dbname: '%env(resolve:PG_DB)%'
+                default_dbname: '%env(resolve:PG_DB)%'         # PostgreSQL specific
+                host: '%env(resolve:PG_HOST)%'
+                port: '%env(resolve:PG_PORT)%'
+                user: '%env(resolve:PG_USER)%'
+                password: '%env(resolve:PG_PASS)%'
+                charset: utf8
+    orm:
+        auto_mapping: true
+        validate_xml_mapping: true
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        mappings:
+            Domain:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Persistence/'
+                prefix: 'App\Entity'
+                alias: Domain
+#            App:
+#                type: attribute
+#                is_bundle: false
+#                dir: '%kernel.project_dir%/src/Entity'
+#                prefix: 'App\Entity'
+#                alias: App
+
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

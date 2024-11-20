@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Entity\Member" table="member">
+        <id name="id" column="id" type="uuid">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+        </id>
+        <indexes>
+            <index name="member_pk" columns="id"/>
+        </indexes>
+        <unique-constraints>
+            <unique-constraint name="member_pk" columns="id"/>
+        </unique-constraints>
+        <field name="name" nullable="true" column="name" type="string" length="255"/>
+        <field name="surName" nullable="true" column="sur_name" type="string" length="255"/>
+        <field name="email" column="email"/>
+
+        <field name="createdTime" type="datetime_immutable" column="created_time" nullable="true"/>
+        <field name="updatedTime" type="datetime_immutable" column="updated_time" nullable="true"/>
+        <one-to-one field="currencySubscription" target-entity="App\Entity\CurrencySubscription" mapped-by="member">
+            <cascade>
+                <cascade-remove/>
+            </cascade>
+            <join-column name="id" referenced-column-name="id" nullable="true"/>
+        </one-to-one>
+
+    </entity>
+</doctrine-mapping>
