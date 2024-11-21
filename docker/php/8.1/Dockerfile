@@ -22,8 +22,6 @@ RUN apk --update --no-cache add \
     git \
     libzip-dev \
     libintl \
-    rabbitmq-c \
-    rabbitmq-c-dev \
     postgresql-dev \
     icu-dev \
     build-base \
@@ -34,14 +32,6 @@ RUN apk --update --no-cache add \
 
 # Install PHP extensions
 RUN docker-php-ext-install zip pdo pdo_pgsql intl opcache
-
-RUN pecl bundle -d /usr/src/php/ext redis && pecl bundle -d /usr/src/php/ext apcu && docker-php-ext-install apcu redis
-
-# Manually install the AMQP extension
- RUN git clone https://github.com/php-amqp/php-amqp /usr/src/php/ext/amqp \
-     && docker-php-ext-install amqp
-
-# Optionally, you can set up other PHP configurations as needed.
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
@@ -62,9 +52,6 @@ RUN ln -s /root/.composer/vendor/bin/phpunit /usr/local/bin/phpunit
 #RUN composer global require phpunit/phpunit --dev && \
 #    ln -s /root/.composer/vendor/bin/phpunit /usr/local/bin/phpunit
 
-# Install and enable Xdebug
-#RUN pecl install xdebug
-#RUN docker-php-ext-enable xdebug
 
 RUN apk add --update linux-headers
 

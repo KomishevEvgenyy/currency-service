@@ -33,7 +33,7 @@ final class Version20241120184112 extends AbstractMigration
                 (gen_random_uuid(), 'Isabella', 'Morales', 'isabella.morales@example.com', NOW(), NOW());");
         $this->addSql("INSERT INTO public.currency_subscription (member_id, is_active, created_time, updated_time)
             SELECT id, 
-               (random() < 0.4), -- Генеруємо 80% активних підписок
+               (random() < 0.4),
                NOW(),
                NOW()
             FROM public.member;");

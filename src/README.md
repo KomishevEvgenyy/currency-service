@@ -9,6 +9,7 @@ MAILER_DSN="smtp://user_name:password@sandbox.smtp.mailtrap.io:2525"
 
 ### Run command into php container
 ~~~
+composer install
 php bin/console doctrine:migrations:migrate
 php bin/console debug:autowiring mailer
 
