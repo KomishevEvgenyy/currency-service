@@ -15,7 +15,7 @@ class CurrencySubscription
 {
     private int $id;
     private bool $isActive;
-    private UuidInterface $member_id;
+    private UuidInterface $memberId;
     private ?DateTimeImmutable $createdTime;
     private ?DateTimeImmutable $updatedTime = null;
     private Member $member;
@@ -88,22 +88,22 @@ class CurrencySubscription
     }
 
     /**
-     * @return Member
+     * @return UuidInterface $member_id
      */
     /**
      * @return UuidInterface
      */
     public function getMemberId(): UuidInterface
     {
-        return $this->member_id;
+        return $this->memberId;
     }
 
     /**
      * @param UuidInterface $member_id
      */
-    public function setMemberId(UuidInterface $member_id): void
+    public function setMemberId(UuidInterface $memberId): void
     {
-        $this->member_id = $member_id;
+        $this->memberId = $memberId;
     }
 
     /**
